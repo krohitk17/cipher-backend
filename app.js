@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
@@ -11,6 +12,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 5001;
 
 mongoose.connect(process.env.MONGO_DB_URL, {
