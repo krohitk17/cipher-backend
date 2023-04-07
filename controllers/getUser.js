@@ -3,7 +3,7 @@ const { NotFoundError } = require("../errors");
 
 module.exports = async (_id) => {
   const user = User.findById(_id);
-  if (user == null) {
+  if (!user) {
     throw new NotFoundError("User not found");
   }
   return user;

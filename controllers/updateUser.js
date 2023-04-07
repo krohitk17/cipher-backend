@@ -3,6 +3,7 @@ const getUser = require("./getUser");
 
 module.exports = async (_id, updatedUser) => {
   const user = await getUser(_id);
+
   if (updatedUser.name) {
     user.name = updatedUser.name;
   }

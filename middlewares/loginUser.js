@@ -2,7 +2,13 @@ const verifyPassword = require("../controllers/verifyPassword");
 const { UnauthorizedError } = require("../errors");
 
 module.exports = async (req, res, next) => {
-  const email = req.header("email");
+  var email = req.header("email");
+  if (!email) {
+    email = req.email;
+    if (!email) {
+      throw new UnauthorizedError("Invalid Credentials");
+    }
+  }
   const password = req.header("password");
 
   try {
@@ -10,7 +16,8 @@ module.exports = async (req, res, next) => {
     if (!isMatch) {
       throw new UnauthorizedError("Invalid Credentials");
     }
-    req._id = isMatch;
+    req._id = isMatch._id;
+    req.email = isMatch.email;
   } catch (error) {
     next(error);
   }

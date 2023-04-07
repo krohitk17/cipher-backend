@@ -5,7 +5,7 @@ const signToken = require("../middlewares/signToken");
 const verifyPassword = require("../middlewares/verifyPassword");
 
 router.get(
-  "/",
+  "/login",
   verifyPassword,
   async (req, res, next) => {
     console.log("CALL LOGIN GET REQUEST");

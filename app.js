@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const profileRoute = require("./routes/profile");
 const avatarRoute = require("./routes/avatar");
-const loginRoute = require("./routes/login");
+const authRoute = require("./routes/auth");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/profile", profileRoute);
-app.use("/login", loginRoute);
+app.use("/auth", authRoute);
 app.use("/avatar", avatarRoute);
 
 app.use((error, req, res, next) => {

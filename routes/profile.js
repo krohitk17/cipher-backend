@@ -34,7 +34,6 @@ router.get("/email", verifyToken, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  next();
 });
 
 router.get("/name/:page", verifyToken, async (req, res, next) => {
@@ -50,7 +49,6 @@ router.get("/name/:page", verifyToken, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  next();
 });
 
 router.post("/", async (req, res, next) => {

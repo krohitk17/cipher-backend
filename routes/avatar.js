@@ -4,13 +4,12 @@ const multer = require("multer");
 
 const verifyToken = require("../middlewares/verifyToken");
 const updateUser = require("../controllers/updateUser");
-const { NotFoundError } = require("../errors");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, "avatars/");
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     const filename = `${req._id}.png`;
     cb(null, filename);
   },
@@ -18,31 +17,30 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/", verifyToken, upload.single("avatar"), (req, res) => {
+router.post("/", verifyToken, upload.single("avatar"), async (req, res) => {
   console.log("CALL AVATAR POST REQUEST");
-  updateUser(req.email, {
-    avatar:
-      req.protocol +
-      "://" +
-      req.get("host") +
-      req.originalUrl +
-      req.file.filename,
-  });
-  res.status(200).json({
-    success: true,
-  });
+  try {
+    await updateUser(req._id, {
+      avatar:
+        req.protocol +
+        "://" +
+        req.get("host") +
+        req.originalUrl +
+        "/" +
+        req._id,
+    });
+    res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.get("/:userid", verifyToken, (req, res, next) => {
+router.get("/:userid", (req, res) => {
   console.log("CALL AVATAR GET REQUEST");
   const userid = req.params.userid;
   res.sendFile(process.cwd() + "/avatars/" + userid + ".png");
-  console.log(res);
-  if (res.statusCode === 404) {
-    const err = new NotFoundError("Image Not Found");
-    next(err);
-  }
-  next();
 });
 
 module.exports = router;
