@@ -7,6 +7,9 @@ module.exports = async (_id, updatedUser) => {
   if (updatedUser.name) {
     user.name = updatedUser.name;
   }
+  if (updatedUser.email) {
+    user.email = updatedUser.email;
+  }
   if (updatedUser.description) {
     user.description = updatedUser.description;
   }

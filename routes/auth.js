@@ -24,6 +24,7 @@ router.patch("/password", verifyToken, async (req, res, next) => {
     res.status(200).json({
       success: true,
     });
+    console.log("PASSWORD UPDATED");
   } catch (error) {
     next(error);
   }
