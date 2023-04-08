@@ -17,25 +17,31 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/", verifyToken, upload.single("avatar"), async (req, res) => {
-  console.log("CALL AVATAR POST REQUEST");
-  try {
-    await updateUser(req._id, {
-      avatar:
-        req.protocol +
-        "://" +
-        req.get("host") +
-        req.originalUrl +
-        "/" +
-        req._id,
-    });
-    res.status(200).json({
-      success: true,
-    });
-  } catch (err) {
-    next(err);
+router.post(
+  "/",
+  verifyToken,
+  upload.single("avatar"),
+  async (req, res, next) => {
+    console.log(req.body);
+    console.log("CALL AVATAR POST REQUEST");
+    try {
+      await updateUser(req._id, {
+        avatar:
+          req.protocol +
+          "://" +
+          req.get("host") +
+          req.originalUrl +
+          "/" +
+          req._id,
+      });
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get("/:userid", (req, res) => {
   console.log("CALL AVATAR GET REQUEST");
